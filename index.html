@@ -2051,50 +2051,157 @@
 
 
         /* --- PROJECTS & OTHER UI --- */
-        .projects-section-title {
-            text-align: center;
-            margin-bottom: 4rem;
+        /* --- PROJECT SHOWCASE REDESIGN (NFT STRIP STYLE) --- */
+        .showcase-carousel-wrapper {
+            width: 100%;
+            overflow: hidden;
+            padding: 4rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
         .showcase-carousel {
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
             gap: 2rem;
-            margin-bottom: 3rem;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 2rem 0;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .showcase-carousel::-webkit-scrollbar {
-            display: none;
+            align-items: center;
+            padding: 2rem;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
         }
 
         .showcase-card {
-            min-width: 80%;
-            max-width: 800px;
-            flex-shrink: 0;
-            transform: scale(0.85);
-            opacity: 0.5;
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            filter: blur(2px);
+            flex: 0 0 260px;
+            height: 380px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.2rem;
+            opacity: 0.6;
+            filter: blur(1px) grayscale(20%);
+            transform: scale(0.85);
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: left;
         }
 
         .showcase-card.active {
-            transform: scale(1);
             opacity: 1;
-            filter: blur(0);
-            cursor: default;
+            filter: none;
+            transform: scale(1);
+            z-index: 10;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Electric Gradients (Non-Transparent) */
+        .card-grembit-axiom {
+            background: linear-gradient(135deg, #9D4EDD 0%, #560BAD 100%);
+        }
+
+        .card-grembit-vada {
+            background: linear-gradient(135deg, #4361EE 0%, #3F37C9 100%);
+        }
+
+        .card-portfolio {
+            background: linear-gradient(135deg, #D4AF37 0%, #996515 100%);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-title {
+            font-size: 1.7rem;
+            font-weight: 900;
+            margin-bottom: 0.6rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            color: #fff;
+        }
+
+        .card-status {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .card-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #fff;
+            animation: pulse-white 2s infinite;
+        }
+
+        @keyframes pulse-white {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .card-action {
+            margin-top: auto;
+            text-decoration: none;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 1.1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            backdrop-filter: blur(12px);
+            width: 100%;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+        }
+
+        .card-action:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .carousel-navs {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 1rem;
+            margin-top: 1rem;
             margin-bottom: 5rem;
         }
 
@@ -2107,22 +2214,21 @@
             transition: all 0.3s ease;
         }
 
-        [data-theme="light"] .carousel-dot {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
         .carousel-dot.active {
             background: var(--accent-gold);
             transform: scale(1.3);
-        }
-
-        [data-theme="light"] .carousel-dot.active {
-            background: var(--accent-purple);
+            box-shadow: 0 0 15px var(--accent-gold);
         }
 
         @media (max-width: 768px) {
             .showcase-card {
-                min-width: 90%;
+                flex: 0 0 240px;
+                height: 340px;
+                padding: 1.8rem;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
             }
         }
 
@@ -3211,78 +3317,51 @@
                 <h2>Projects Showcase</h2>
             </div>
 
-            <div class="showcase-carousel">
-                <!-- 1. Grembit Axiom 10 -->
-                <div class="project-card showcase-card active">
-                    <div class="project-header">
-                        <span class="project-status-badge">● UNDER DEVELOPING</span>
-                        <h3 class="project-title-large">Grembit Axiom 10</h3>
-                    </div>
-                    <div class="project-body-content">
-                        <p class="project-desc-text">Evolusi dari algoritma V9.2. Sekarang mengintegrasikan Binance API
-                            untuk eksekusi trade live, strategi Core-Satellite, dan penyesuaian take-profit tetap
-                            berdasarkan hasil backtest.</p>
-                        <div class="project-tech-stack">
-                            <span>Python</span><span>Pandas</span><span>Binance API</span><span>CCXT</span>
+            <div class="showcase-carousel-wrapper">
+                <div class="showcase-carousel" id="projectCarousel">
+                    <!-- 1. Grembit Axiom 10 -->
+                    <div class="showcase-card card-grembit-axiom active" onclick="goToCarouselSlide(0)">
+                        <div class="card-content">
+                            <span class="card-status">DEVELOPING</span>
+                            <h3 class="card-title">Grembit<br>Axiom 10</h3>
+                            <a href="project-grembit.html" class="card-action">
+                                Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                    <div class="project-action-area">
-                        <a href="project-grembit.html" class="view-btn">
-                            View Details
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- 2. Grembit VADA -->
-                <div class="project-card showcase-card">
-                    <div class="project-header">
-                        <span class="project-status-badge">● COMPLETED</span>
-                        <h3 class="project-title-large">Grembit VADA</h3>
-                    </div>
-                    <div class="project-body-content">
-                        <p class="project-desc-text">Virtual Automated Data Analyst. Sistem jurnaling trading otomatis
-                            yang merekam, menganalisis, dan memvisualisasikan performa trading secara real-time dari
-                            localhost.</p>
-                        <div class="project-tech-stack">
-                            <span>Python</span><span>Binance API</span><span>CSV</span><span>Localhost</span>
+                    <!-- 2. Grembit VADA -->
+                    <div class="showcase-card card-grembit-vada" onclick="goToCarouselSlide(1)">
+                        <div class="card-content">
+                            <span class="card-status">COMPLETED</span>
+                            <h3 class="card-title">Grembit<br>VADA</h3>
+                            <a href="project-grembit-vada.html" class="card-action">
+                                Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                    <div class="project-action-area">
-                        <a href="project-grembit-vada.html" class="view-btn">
-                            View Details
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- 3. Portfolio Website -->
-                <div class="project-card showcase-card">
-                    <div class="project-header">
-                        <span class="project-status-badge">● COMPLETED & LIVE</span>
-                        <h3 class="project-title-large">Portfolio Website</h3>
-                    </div>
-                    <div class="project-body-content">
-                        <p class="project-desc-text">Website ini dibuat sepenuhnya secara mandiri. Dibangun dengan
-                            metode Vibe Coding, di mana saya membangun website secara intensif dengan AI Partner.</p>
-                        <div class="project-tech-stack">
-                            <span>HTML5</span><span>WebGL Aurora</span><span>CSS Glassmorphism</span>
+                    <!-- 3. Portfolio Website -->
+                    <div class="showcase-card card-portfolio" onclick="goToCarouselSlide(2)">
+                        <div class="card-content">
+                            <span class="card-status">LIVE</span>
+                            <h3 class="card-title">Portfolio<br>Website</h3>
+                            <a href="project-portfolio.html" class="card-action">
+                                Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </a>
                         </div>
-                    </div>
-                    <div class="project-action-area">
-                        <a href="project-portfolio.html" class="view-btn">
-                            View Details
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -3761,75 +3840,69 @@
             initInteractiveLoop();
         });
 
-        // Carousel Logic
+        // Carousel Logic Redesign (Centered NFT Strip)
+        let currentCarouselIndex = 0;
         const carousel = document.querySelector('.showcase-carousel');
         const cards = document.querySelectorAll('.showcase-card');
         const dots = document.querySelectorAll('.carousel-dot');
+        const wrapper = document.querySelector('.showcase-carousel-wrapper');
 
-        if (carousel && cards.length > 0) {
-            let activeIndex = 0;
-
-            const updateCarousel = (index) => {
-                cards.forEach((c, i) => {
-                    if (i === index) {
-                        c.classList.add('active');
-                    } else {
-                        c.classList.remove('active');
-                    }
-                });
-                dots.forEach((d, i) => {
-                    if (i === index) {
-                        d.classList.add('active');
-                    } else {
-                        d.classList.remove('active');
-                    }
-                });
-
-                const card = cards[index];
-                const scrollPos = card.offsetLeft - (carousel.offsetWidth / 2) + (card.offsetWidth / 2);
-                carousel.scrollTo({
-                    left: scrollPos,
-                    behavior: 'smooth'
-                });
-                activeIndex = index;
-            };
+        function updateCarousel() {
+            if (!carousel || !wrapper || cards.length === 0) return;
 
             cards.forEach((card, index) => {
-                card.addEventListener('click', () => {
-                    if (activeIndex !== index) {
-                        updateCarousel(index);
-                    }
-                });
-            });
-
-            window.goToCarouselSlide = (index) => {
-                updateCarousel(index);
-            };
-
-            carousel.addEventListener('scroll', () => {
-                if (!isDragging) { // use isDragging from interactive loop if available, else omit
-                    let closest = 0;
-                    let minDiff = Infinity;
-                    const center = carousel.scrollLeft + (carousel.offsetWidth / 2);
-
-                    cards.forEach((card, i) => {
-                        const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-                        const diff = Math.abs(center - cardCenter);
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closest = i;
-                        }
-                    });
-
-                    if (activeIndex !== closest && minDiff < (cards[0].offsetWidth / 3)) {
-                        updateCarousel(closest);
-                    }
+                if (index === currentCarouselIndex) {
+                    card.classList.add('active');
+                    if (dots[index]) dots[index].classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                    if (dots[index]) dots[index].classList.remove('active');
                 }
             });
 
-            setTimeout(() => {
-                updateCarousel(0);
-            }, 500);
+            // Calculate offset to center the active card
+            const activeCard = cards[currentCarouselIndex];
+            const wrapperWidth = wrapper.offsetWidth;
+            const centerPosition = wrapperWidth / 2;
+            const cardCenter = activeCard.offsetLeft + (activeCard.offsetWidth / 2);
+            const offset = centerPosition - cardCenter;
+
+            carousel.style.transform = `translateX(${offset}px)`;
+        }
+
+        window.goToCarouselSlide = (index) => {
+            currentCarouselIndex = Math.max(0, Math.min(index, cards.length - 1));
+            updateCarousel();
+        };
+
+        // Initialize and respond to window changes
+        window.addEventListener('load', updateCarousel);
+        window.addEventListener('resize', updateCarousel);
+
+        // Simple Drag Interaction
+        let dragStartX = 0;
+        let isDragging = false;
+
+        const handleStart = (x) => {
+            dragStartX = x;
+            isDragging = true;
+        };
+
+        const handleEnd = (x) => {
+            if (!isDragging) return;
+            isDragging = false;
+            const diff = x - dragStartX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentCarouselIndex > 0) goToCarouselSlide(currentCarouselIndex - 1);
+                else if (diff < 0 && currentCarouselIndex < cards.length - 1) goToCarouselSlide(currentCarouselIndex + 1);
+            }
+        };
+
+        if (wrapper) {
+            wrapper.addEventListener('mousedown', e => handleStart(e.pageX));
+            wrapper.addEventListener('mouseup', e => handleEnd(e.pageX));
+            wrapper.addEventListener('touchstart', e => handleStart(e.touches[0].pageX), { passive: true });
+            wrapper.addEventListener('touchend', e => handleEnd(e.changedTouches[0].pageX), { passive: true });
         }
     </script>
 </body>

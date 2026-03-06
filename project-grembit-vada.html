@@ -2051,50 +2051,157 @@
 
 
         /* --- PROJECTS & OTHER UI --- */
-        .projects-section-title {
-            text-align: center;
-            margin-bottom: 4rem;
+        /* --- PROJECT SHOWCASE REDESIGN (NFT STRIP STYLE) --- */
+        .showcase-carousel-wrapper {
+            width: 100%;
+            overflow: hidden;
+            padding: 4rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
         .showcase-carousel {
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
             gap: 2rem;
-            margin-bottom: 3rem;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 2rem 0;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .showcase-carousel::-webkit-scrollbar {
-            display: none;
+            align-items: center;
+            padding: 2rem;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
         }
 
         .showcase-card {
-            min-width: 80%;
-            max-width: 800px;
-            flex-shrink: 0;
-            transform: scale(0.85);
-            opacity: 0.5;
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            filter: blur(2px);
+            flex: 0 0 260px;
+            height: 380px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.2rem;
+            opacity: 0.6;
+            filter: blur(1px) grayscale(20%);
+            transform: scale(0.85);
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: left;
         }
 
         .showcase-card.active {
-            transform: scale(1);
             opacity: 1;
-            filter: blur(0);
-            cursor: default;
+            filter: none;
+            transform: scale(1);
+            z-index: 10;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Electric Gradients (Non-Transparent) */
+        .card-grembit-axiom {
+            background: linear-gradient(135deg, #9D4EDD 0%, #560BAD 100%);
+        }
+
+        .card-grembit-vada {
+            background: linear-gradient(135deg, #4361EE 0%, #3F37C9 100%);
+        }
+
+        .card-portfolio {
+            background: linear-gradient(135deg, #D4AF37 0%, #996515 100%);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-title {
+            font-size: 1.7rem;
+            font-weight: 900;
+            margin-bottom: 0.6rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            color: #fff;
+        }
+
+        .card-status {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .card-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #fff;
+            animation: pulse-white 2s infinite;
+        }
+
+        @keyframes pulse-white {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .card-action {
+            margin-top: auto;
+            text-decoration: none;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 1.1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            backdrop-filter: blur(12px);
+            width: 100%;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+        }
+
+        .card-action:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .carousel-navs {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 1rem;
+            margin-top: 1rem;
             margin-bottom: 5rem;
         }
 
@@ -2107,22 +2214,21 @@
             transition: all 0.3s ease;
         }
 
-        [data-theme="light"] .carousel-dot {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
         .carousel-dot.active {
             background: var(--accent-gold);
             transform: scale(1.3);
-        }
-
-        [data-theme="light"] .carousel-dot.active {
-            background: var(--accent-purple);
+            box-shadow: 0 0 15px var(--accent-gold);
         }
 
         @media (max-width: 768px) {
             .showcase-card {
-                min-width: 90%;
+                flex: 0 0 240px;
+                height: 340px;
+                padding: 1.8rem;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
             }
         }
 
@@ -2825,62 +2931,121 @@
             }
         }
     
-        /* Stacked Layered Cards Gallery */
+        /* Horizontal Overlapping Gallery */
         .gallery-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 50vh;
-            perspective: 1000px;
+            padding: 3rem 0;
+            width: 100%;
+            overflow: hidden;
         }
 
-        .stacked-cards {
-            position: relative;
-            width: 80%;
-            max-width: 800px;
-            height: 450px;
+        .overlapping-row {
             display: flex;
             justify-content: center;
             align-items: center;
-            transform-style: preserve-3d;
+            position: relative;
+            padding: 2rem;
         }
 
-        .stack-card {
-            position: absolute;
-            width: 70%;
-            height: auto;
+        .gallery-card {
+            width: 320px;
+            height: 200px;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            border: 1px solid var(--glass-border);
-            cursor: pointer;
-            filter: grayscale(30%) brightness(0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            margin-right: -60px; /* Overlap */
+            background: #111;
         }
 
-        .stack-card img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        .gallery-card:hover {
+            transform: translateY(-20px) scale(1.1);
+            z-index: 20 !important;
+            margin-right: -20px;
+            margin-left: 40px;
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.4);
+            border-color: var(--accent-purple);
         }
 
-        .stack-card:nth-child(1) { transform: translateY(-20px) translateZ(-100px) rotate(-5deg); z-index: 1; }
-        .stack-card:nth-child(2) { transform: translateY(0) translateZ(-50px) rotate(2deg); z-index: 2; }
-        .stack-card:nth-child(3) { transform: translateY(20px) translateZ(0) rotate(-2deg); z-index: 3; filter: grayscale(0%) brightness(1); }
+        /* Bento Grid Redesign (Solid Electric) */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: minmax(180px, auto);
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-        .stacked-cards:hover .stack-card { filter: grayscale(0%) brightness(1); }
-        .stack-card:hover {
-            transform: translateY(-40px) translateZ(50px) rotate(0deg) scale(1.05) !important;
-            z-index: 10 !important;
-            box-shadow: 0 30px 60px rgba(157, 78, 221, 0.4);
+        .bento-item {
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
         }
         
-        [data-theme="light"] .stack-card { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); }
-        [data-theme="light"] .stack-card:hover { box-shadow: 0 30px 60px rgba(123, 31, 162, 0.2); }
+        .bento-item:hover { transform: translateY(-5px); }
+
+        .bento-tech { background: #560BAD; grid-column: span 2; }
+        .bento-history { background: #3F37C9; grid-column: span 1; }
+        .bento-main { background: #240046; grid-column: span 3; min-height: 250px; }
+        .bento-extra { background: #D4AF37; grid-column: span 1; color: #000 !important; }
+
+        .bento-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
         
+        .bento-extra .bento-icon { background: rgba(0,0,0,0.1); }
+
+        .bento-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .bento-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .bento-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .bento-item, .bento-item * { color: #fff !important; }
+        .bento-extra, .bento-extra * { color: #000 !important; }
+
         @media (max-width: 768px) {
-            .stacked-cards { height: 300px; width: 95%; }
-            .stack-card { width: 85%; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-tech, .bento-history, .bento-main, .bento-extra { grid-column: span 1; }
+            .gallery-card { width: 200px; height: 130px; margin-right: -40px; }
         }
 
         /* Force Visibility on Project Pages */
@@ -2945,43 +3110,45 @@
     </div>
 
         <main>
-        <section class="hero" id="home" style="min-height: 50vh; padding-top: 150px; padding-bottom: 50px;">
+        <section class="hero" id="home" style="min-height: 40vh; padding-top: 150px; padding-bottom: 20px;">
             <canvas id="hero-aurora" class="aurora-canvas"></canvas>
             <div class="hero-top-row">
                 <div class="hero-text-content animate-on-scroll" style="max-width: 800px; text-align: center; margin: 0 auto; flex: unset;">
-                    <span class="project-status-badge" style="margin-bottom: 2rem;">● COMPLETED</span>
+                    <span class="card-status" style="justify-content: center; margin-bottom: 1rem;">COMPLETED</span>
                     <h1>
                         Grembit VADA<br>
                         <span class="highlight-text">Virtual Automated Data Analyst</span>
                     </h1>
-                    <p class="hero-desc" style="max-width: 600px; margin: 0 auto;">
-                        Sistem jurnaling trading otomatis yang merekam, menganalisis, dan memvisualisasikan performa trading secara real-time dari localhost.
-                    </p>
                 </div>
             </div>
         </section>
 
-        <section id="gallery" style="padding-top: 50px; padding-bottom: 50px;">
-            <div class="gallery-container animate-on-scroll delay-100">
-                <div class="stacked-cards">
-                    <div class="stack-card"><img src="assets/vada-1.png" alt="VADA"></div>
-                    <div class="stack-card"><img src="assets/vada-2.png" alt="VADA"></div>
-                    <div class="stack-card"><img src="assets/vada-3.png" alt="VADA"></div>
+        <section id="gallery" style="padding: 20px 0;">
+            <div class="gallery-container">
+                <div class="overlapping-row">
+                    <div class="gallery-card"><img src="assets/vada-1.png" alt="VADA"></div>
+                    <div class="gallery-card"><img src="assets/vada-2.png" alt="VADA"></div>
+                    <div class="gallery-card"><img src="assets/vada-3.png" alt="VADA"></div>
                 </div>
             </div>
         </section>
 
-        <section id="details" class="bento-section" style="padding-top: 0rem; padding-bottom: 5rem;">
-            <div class="projects-grid" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto; display: grid; gap: 2.5rem;">
-                <div class="project-card grembit animate-on-scroll delay-200" style="min-height: auto;">
-                    <div class="project-header">
-                        <h3 class="project-title-large">Tech Stack & Features</h3>
-                    </div>
-                    <div class="project-body-content">
-                        <p class="project-desc-text"><strong>Tech:</strong> Python, Binance API, CSV, Localhost</p>
-                        <p class="project-desc-text"><strong>Arsitektur Teknis:</strong> Jembatan antara sistem API Binance dan Localhost untuk pemrosesan data real-time dan perekaman tanpa latensi eksternal.</p>
-                        <p class="project-desc-text"><strong>Automated Journal Trade:</strong> Merekam setiap pesanan dan status secara otomatis ke dalam CSV, mengurangi kesalahan manual pencatatan psikologi trader.</p>
-                    </div>
+        <section id="details" style="padding-bottom: 5rem;">
+            <div class="bento-grid">
+                <div class="bento-item bento-main">
+                    <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div>
+                    <h3 class="bento-title">Automated Journal</h3>
+                    <p class="bento-desc">Merekam setiap pesanan dan status secara otomatis ke dalam CSV dari localhost, menghilangkan kesalahan manual dan bias psikologi trader dalam pencatatan performa.</p>
+                </div>
+                <div class="bento-item bento-tech">
+                    <div class="bento-label">Architecture</div>
+                    <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+                    <p class="bento-desc"><strong>Stack:</strong> Python, Binance API, CSV, Localhost Bridge</p>
+                </div>
+                <div class="bento-item bento-extra">
+                    <div class="bento-label">Status</div>
+                    <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <p class="bento-desc">Sistem stabil dan berjalan 24/7 di lingkungan localhost production.</p>
                 </div>
             </div>
         </section>
@@ -3371,89 +3538,75 @@
             initInteractiveLoop();
         });
 
-        // Carousel Logic
+        // Carousel Logic Redesign (Centered NFT Strip)
+        let currentCarouselIndex = 0;
         const carousel = document.querySelector('.showcase-carousel');
         const cards = document.querySelectorAll('.showcase-card');
         const dots = document.querySelectorAll('.carousel-dot');
+        const wrapper = document.querySelector('.showcase-carousel-wrapper');
 
-        if (carousel && cards.length > 0) {
-            let activeIndex = 0;
-
-            const updateCarousel = (index) => {
-                cards.forEach((c, i) => {
-                    if (i === index) {
-                        c.classList.add('active');
-                    } else {
-                        c.classList.remove('active');
-                    }
-                });
-                dots.forEach((d, i) => {
-                    if (i === index) {
-                        d.classList.add('active');
-                    } else {
-                        d.classList.remove('active');
-                    }
-                });
-
-                const card = cards[index];
-                const scrollPos = card.offsetLeft - (carousel.offsetWidth / 2) + (card.offsetWidth / 2);
-                carousel.scrollTo({
-                    left: scrollPos,
-                    behavior: 'smooth'
-                });
-                activeIndex = index;
-            };
+        function updateCarousel() {
+            if (!carousel || !wrapper || cards.length === 0) return;
 
             cards.forEach((card, index) => {
-                card.addEventListener('click', () => {
-                    if (activeIndex !== index) {
-                        updateCarousel(index);
-                    }
-                });
-            });
-
-            window.goToCarouselSlide = (index) => {
-                updateCarousel(index);
-            };
-
-            carousel.addEventListener('scroll', () => {
-                if (!isDragging) { // use isDragging from interactive loop if available, else omit
-                    let closest = 0;
-                    let minDiff = Infinity;
-                    const center = carousel.scrollLeft + (carousel.offsetWidth / 2);
-
-                    cards.forEach((card, i) => {
-                        const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-                        const diff = Math.abs(center - cardCenter);
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closest = i;
-                        }
-                    });
-
-                    if (activeIndex !== closest && minDiff < (cards[0].offsetWidth / 3)) {
-                        updateCarousel(closest);
-                    }
+                if (index === currentCarouselIndex) {
+                    card.classList.add('active');
+                    if (dots[index]) dots[index].classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                    if (dots[index]) dots[index].classList.remove('active');
                 }
             });
 
-            setTimeout(() => {
-                updateCarousel(0);
-            }, 500);
+            // Calculate offset to center the active card
+            const activeCard = cards[currentCarouselIndex];
+            const wrapperWidth = wrapper.offsetWidth;
+            const centerPosition = wrapperWidth / 2;
+            const cardCenter = activeCard.offsetLeft + (activeCard.offsetWidth / 2);
+            const offset = centerPosition - cardCenter;
+
+            carousel.style.transform = `translateX(${offset}px)`;
+        }
+
+        window.goToCarouselSlide = (index) => {
+            currentCarouselIndex = Math.max(0, Math.min(index, cards.length - 1));
+            updateCarousel();
+        };
+
+        // Initialize and respond to window changes
+        window.addEventListener('load', updateCarousel);
+        window.addEventListener('resize', updateCarousel);
+
+        // Simple Drag Interaction
+        let dragStartX = 0;
+        let isDragging = false;
+
+        const handleStart = (x) => {
+            dragStartX = x;
+            isDragging = true;
+        };
+
+        const handleEnd = (x) => {
+            if (!isDragging) return;
+            isDragging = false;
+            const diff = x - dragStartX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentCarouselIndex > 0) goToCarouselSlide(currentCarouselIndex - 1);
+                else if (diff < 0 && currentCarouselIndex < cards.length - 1) goToCarouselSlide(currentCarouselIndex + 1);
+            }
+        };
+
+        if (wrapper) {
+            wrapper.addEventListener('mousedown', e => handleStart(e.pageX));
+            wrapper.addEventListener('mouseup', e => handleEnd(e.pageX));
+            wrapper.addEventListener('touchstart', e => handleStart(e.touches[0].pageX), { passive: true });
+            wrapper.addEventListener('touchend', e => handleEnd(e.changedTouches[0].pageX), { passive: true });
         }
     
-        // Stacked Gallery Logic
-        const stackCards = document.querySelectorAll('.stack-card');
-        stackCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const parent = card.parentElement;
-                parent.querySelectorAll('.stack-card').forEach(c => {
-                    c.style.zIndex = '1';
-                    c.style.transform = ''; // reset style
-                });
-                card.style.zIndex = '10';
-                card.style.transform = 'translateY(-20px) translateZ(50px) rotate(0deg) scale(1.05)';
-            });
+        // Simple Gallery Hover Shift Logic
+        const cards = document.querySelectorAll('.gallery-card');
+        cards.forEach((card, i) => {
+            card.style.zIndex = i;
         });
 
     </script>
