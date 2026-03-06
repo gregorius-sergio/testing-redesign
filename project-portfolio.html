@@ -2072,12 +2072,8 @@
         }
 
         .showcase-card {
-            flex: 0 0 300px;
-            height: 420px;
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            flex: 0 0 340px;
+            height: 460px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -2144,11 +2140,45 @@
         }
 
         .card-desc {
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: 1.5rem;
-            opacity: 0.85;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            opacity: 0.9;
             color: #fff;
+        }
+
+        .card-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Light Mode Contrast Fixes for Showcase */
+        [data-theme="light"] .card-status,
+        [data-theme="light"] .card-title,
+        [data-theme="light"] .card-desc,
+        [data-theme="light"] .tech-tag {
+            color: #fff !important;
+            /* Keep white on vibrant backgrounds */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .tech-tag {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .card-status::before {
@@ -2942,11 +2972,21 @@
         /* Horizontal Overlapping Gallery */
         .gallery-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 3rem 0;
+            padding: 1rem 0;
             width: 100%;
             overflow: hidden;
+        }
+
+        .gallery-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            opacity: 0.9;
         }
 
         .overlapping-row {
@@ -3071,6 +3111,23 @@
             z-index: 1;
         }
 
+        /* LIGHT MODE REVISIONS */
+        [data-theme="light"] .card-status {
+            color: #000 !important;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        [data-theme="light"] .gallery-title { color: #000; }
+        
+        /* Force Dark Footer */
+        footer, .footer-section {
+            background: #0a0a0a !important;
+            color: #fff !important;
+        }
+        footer h3, footer p, footer a { color: #fff !important; }
+        footer .footer-bottom { border-top-color: rgba(255,255,255,0.1) !important; }
+
     </style>
 </head>
 
@@ -3133,10 +3190,19 @@
             </div>
         </section>
 
-        <section id="gallery" style="padding: 20px 0;"></section>
+        <section id="gallery" style="padding: 10px 0;">
+             <div class="gallery-container">
+                <h2 class="gallery-title">Documentation</h2>
+                <div class="overlapping-row">
+                    <div class="gallery-card"><img src="assets/vada-1.png" alt="Portfolio Stack"></div>
+                    <div class="gallery-card"><img src="assets/vada-2.png" alt="Portfolio UI"></div>
+                    <div class="gallery-card"><img src="assets/vada-3.png" alt="Portfolio Logic"></div>
+                </div>
+            </div>
+        </section>
 
         <section id="details" style="padding-bottom: 5rem;">
-            <div class="bento-grid">
+            <div class="bento-grid" style="padding-top: 0; margin-top: -1rem;">
                 <div class="bento-item bento-main">
                     <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
                     <h3 class="bento-title">Vibe Coding Method</h3>
@@ -3622,11 +3688,24 @@
             if (typeof initGlobalGravity === 'function') {
                 initGlobalGravity();
             }
-            // Fix hamburger menu functionality
+            // Fix hamburger menu functionality - Force attachment
             const hamburger = document.querySelector('.hamburger');
+            const navOverlay = document.querySelector('.nav-overlay');
+            
             if (hamburger) {
-                hamburger.addEventListener('click', () => {
-                   if (typeof toggleMenu === 'function') toggleMenu();
+                // Remove existing to avoid clones/duplicates if any
+                const newHamburger = hamburger.cloneNode(true);
+                hamburger.parentNode.replaceChild(newHamburger, hamburger);
+                
+                newHamburger.addEventListener('click', (e) => {
+                   e.preventDefault();
+                   if (typeof toggleMenu === 'function') {
+                       toggleMenu();
+                   } else {
+                       // Fallback if toggleMenu is lost
+                       newHamburger.classList.toggle('active');
+                       if(navOverlay) navOverlay.classList.toggle('active');
+                   }
                 });
             }
         });

@@ -2072,12 +2072,8 @@
         }
 
         .showcase-card {
-            flex: 0 0 300px;
-            height: 420px;
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            flex: 0 0 340px;
+            height: 460px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -2144,11 +2140,45 @@
         }
 
         .card-desc {
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: 1.5rem;
-            opacity: 0.85;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            opacity: 0.9;
             color: #fff;
+        }
+
+        .card-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Light Mode Contrast Fixes for Showcase */
+        [data-theme="light"] .card-status,
+        [data-theme="light"] .card-title,
+        [data-theme="light"] .card-desc,
+        [data-theme="light"] .tech-tag {
+            color: #fff !important;
+            /* Keep white on vibrant backgrounds */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .tech-tag {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .card-status::before {
@@ -3330,9 +3360,16 @@
                     <!-- 1. Grembit Axiom 10 -->
                     <div class="showcase-card card-grembit-axiom" onclick="goToCarouselSlide(0)">
                         <div class="card-content">
-                            <span class="card-status">DEVELOPING</span>
+                            <span class="card-status">UNDER DEVELOPING</span>
                             <h3 class="card-title">Grembit<br>Axiom 10</h3>
-                            <p class="card-desc">Algorithmic engine for Binance futures.</p>
+                            <p class="card-desc">Advanced algorithmic engine designed for Binance futures market
+                                high-performance execution.</p>
+                            <div class="card-tech-stack">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Pandas</span>
+                                <span class="tech-tag">Scikit-learn</span>
+                                <span class="tech-tag">Binance</span>
+                            </div>
                             <a href="project-grembit.html" class="card-action">
                                 Details
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3348,7 +3385,14 @@
                         <div class="card-content">
                             <span class="card-status">COMPLETED</span>
                             <h3 class="card-title">Grembit<br>VADA</h3>
-                            <p class="card-desc">Automated trading journal for performance.</p>
+                            <p class="card-desc">Virtual Automated Data Analyst for comprehensive trading performance
+                                and journal management.</p>
+                            <div class="card-tech-stack">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">API</span>
+                                <span class="tech-tag">CSV</span>
+                                <span class="tech-tag">Analysis</span>
+                            </div>
                             <a href="project-grembit-vada.html" class="card-action">
                                 Details
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3362,9 +3406,16 @@
                     <!-- 3. Portfolio Website -->
                     <div class="showcase-card card-portfolio" onclick="goToCarouselSlide(2)">
                         <div class="card-content">
-                            <span class="card-status">LIVE</span>
+                            <span class="card-status">LIVE & ACTIVE</span>
                             <h3 class="card-title">Portfolio<br>Website</h3>
-                            <p class="card-desc">Personal showcase with premium visual.</p>
+                            <p class="card-desc">Premium personal showcase featuring high-end visual aesthetics and
+                                smooth interactive animations.</p>
+                            <div class="card-tech-stack">
+                                <span class="tech-tag">HTML5</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">Vanilla JS</span>
+                                <span class="tech-tag">WebGL</span>
+                            </div>
                             <a href="project-portfolio.html" class="card-action">
                                 Details
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"

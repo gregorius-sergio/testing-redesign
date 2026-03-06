@@ -5,11 +5,21 @@ const cssToAdd = `
         /* Horizontal Overlapping Gallery */
         .gallery-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 3rem 0;
+            padding: 1rem 0;
             width: 100%;
             overflow: hidden;
+        }
+
+        .gallery-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            opacity: 0.9;
         }
 
         .overlapping-row {
@@ -133,6 +143,23 @@ const cssToAdd = `
             position: relative;
             z-index: 1;
         }
+
+        /* LIGHT MODE REVISIONS */
+        [data-theme="light"] .card-status {
+            color: #000 !important;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        [data-theme="light"] .gallery-title { color: #000; }
+        
+        /* Force Dark Footer */
+        footer, .footer-section {
+            background: #0a0a0a !important;
+            color: #fff !important;
+        }
+        footer h3, footer p, footer a { color: #fff !important; }
+        footer .footer-bottom { border-top-color: rgba(255,255,255,0.1) !important; }
 `;
 
 const jsToAdd = `
@@ -153,11 +180,24 @@ const jsToAdd = `
             if (typeof initGlobalGravity === 'function') {
                 initGlobalGravity();
             }
-            // Fix hamburger menu functionality
+            // Fix hamburger menu functionality - Force attachment
             const hamburger = document.querySelector('.hamburger');
+            const navOverlay = document.querySelector('.nav-overlay');
+            
             if (hamburger) {
-                hamburger.addEventListener('click', () => {
-                   if (typeof toggleMenu === 'function') toggleMenu();
+                // Remove existing to avoid clones/duplicates if any
+                const newHamburger = hamburger.cloneNode(true);
+                hamburger.parentNode.replaceChild(newHamburger, hamburger);
+                
+                newHamburger.addEventListener('click', (e) => {
+                   e.preventDefault();
+                   if (typeof toggleMenu === 'function') {
+                       toggleMenu();
+                   } else {
+                       // Fallback if toggleMenu is lost
+                       newHamburger.classList.toggle('active');
+                       if(navOverlay) navOverlay.classList.toggle('active');
+                   }
                 });
             }
         });
@@ -211,7 +251,7 @@ const grembitHTML = `    <main>
             <canvas id="hero-aurora" class="aurora-canvas"></canvas>
             <div class="hero-top-row">
                 <div class="hero-text-content animate-on-scroll" style="max-width: 800px; text-align: center; margin: 0 auto; flex: unset;">
-                    <span class="card-status" style="justify-content: center; margin-bottom: 1rem;">DEVELOPING</span>
+                    <span class="card-status" style="justify-content: center; margin-bottom: 1rem;">UNDER DEVELOPING</span>
                     <h1>
                         Grembit Axiom 10<br>
                         <span class="highlight-text">The Evolution of Logic</span>
@@ -220,8 +260,9 @@ const grembitHTML = `    <main>
             </div>
         </section>
 
-        <section id="gallery" style="padding: 20px 0;">
+        <section id="gallery" style="padding: 10px 0;">
             <div class="gallery-container">
+                <h2 class="gallery-title">Documentation</h2>
                 <div class="overlapping-row">
                     <div class="gallery-card"><img src="assets/axiom10-1.png" alt="Axiom 10"></div>
                     <div class="gallery-card"><img src="assets/axiom10-2.png" alt="Axiom 10"></div>
@@ -231,7 +272,7 @@ const grembitHTML = `    <main>
         </section>
 
         <section id="details" style="padding-bottom: 5rem;">
-            <div class="bento-grid">
+            <div class="bento-grid" style="padding-top: 0; margin-top: -1rem;">
                 <div class="bento-item bento-main">
                     <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
                     <h3 class="bento-title">Axiom 10 Upgrades</h3>
@@ -265,8 +306,9 @@ const vadaHTML = `    <main>
             </div>
         </section>
 
-        <section id="gallery" style="padding: 20px 0;">
+        <section id="gallery" style="padding: 10px 0;">
             <div class="gallery-container">
+                <h2 class="gallery-title">Documentation</h2>
                 <div class="overlapping-row">
                     <div class="gallery-card"><img src="assets/vada-1.png" alt="VADA"></div>
                     <div class="gallery-card"><img src="assets/vada-2.png" alt="VADA"></div>
@@ -276,7 +318,7 @@ const vadaHTML = `    <main>
         </section>
 
         <section id="details" style="padding-bottom: 5rem;">
-            <div class="bento-grid">
+            <div class="bento-grid" style="padding-top: 0; margin-top: -1rem;">
                 <div class="bento-item bento-main">
                     <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div>
                     <h3 class="bento-title">Automated Journal</h3>
@@ -310,10 +352,19 @@ const portfolioHTML = `    <main>
             </div>
         </section>
 
-        <section id="gallery" style="padding: 20px 0;"></section>
+        <section id="gallery" style="padding: 10px 0;">
+             <div class="gallery-container">
+                <h2 class="gallery-title">Documentation</h2>
+                <div class="overlapping-row">
+                    <div class="gallery-card"><img src="assets/vada-1.png" alt="Portfolio Stack"></div>
+                    <div class="gallery-card"><img src="assets/vada-2.png" alt="Portfolio UI"></div>
+                    <div class="gallery-card"><img src="assets/vada-3.png" alt="Portfolio Logic"></div>
+                </div>
+            </div>
+        </section>
 
         <section id="details" style="padding-bottom: 5rem;">
-            <div class="bento-grid">
+            <div class="bento-grid" style="padding-top: 0; margin-top: -1rem;">
                 <div class="bento-item bento-main">
                     <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
                     <h3 class="bento-title">Vibe Coding Method</h3>
