@@ -153,20 +153,18 @@ const cssToAdd = `
         }
         [data-theme="light"] .gallery-title { color: #000; }
         
-        /* Force Dark Footer Persistence */
-        footer, 
-        .footer-section, 
-        .footer-bottom, 
-        footer *, 
-        .footer-section * {
+        /* Force Dark Footer Persistence - Extreme Specificity */
+        [data-theme="light"] body footer, 
+        [data-theme="light"] body .footer-section, 
+        [data-theme="light"] body .footer-bottom,
+        [data-theme="light"] body footer *, 
+        [data-theme="light"] body .footer-section * {
             background-color: #05000a !important;
             color: #fff !important;
             border-color: rgba(255,255,255,0.1) !important;
         }
-        [data-theme="light"] footer, 
-        [data-theme="light"] .footer-section, 
-        [data-theme="light"] .footer-bottom {
-             background-color: #05000a !important;
+        footer, .footer-section {
+            background-color: #05000a !important;
         }
 `;
 
@@ -254,6 +252,9 @@ function buildPage(filename, mainHTML) {
     afterMain = afterMain.replace(/href="#education"/g, 'href="index.html#education"');
     afterMain = afterMain.replace(/href="#projects"/g, 'href="index.html#projects"');
     afterMain = afterMain.replace(/href="#connect"/g, 'href="index.html#connect"');
+
+    // Strip inline onclick from hamburger to prevent double-toggle regressions
+    beforeMain = beforeMain.replace(/<div class="hamburger" onclick="toggleMenu\(\)">/g, '<div class="hamburger">');
 
     const finalHtml = beforeMain + mainHTML + afterMain;
 
