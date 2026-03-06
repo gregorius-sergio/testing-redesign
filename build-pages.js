@@ -59,6 +59,19 @@ const cssToAdd = `
             .stacked-cards { height: 300px; width: 95%; }
             .stack-card { width: 85%; }
         }
+
+        /* Force Visibility on Project Pages */
+        .animate-on-scroll {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+        
+        /* Ensure main is visible and not hidden by any overlap */
+        main {
+            position: relative;
+            z-index: 1;
+        }
 `;
 
 const jsToAdd = `
@@ -89,10 +102,30 @@ function buildPage(filename, mainHTML) {
     let afterMain = content.slice(mainEnd);
 
     // inject css
-    beforeMain = beforeMain.replace('</style>', cssToAdd + '\\n    </style>');
+    beforeMain = beforeMain.replace('</style>', cssToAdd + '\n    </style>');
 
     // inject js
-    afterMain = afterMain.replace('</script>', jsToAdd + '\\n    </script>');
+    afterMain = afterMain.replace('</script>', jsToAdd + '\n    </script>');
+
+    // fix navigation links
+    // Only replace hash links that are exactly "#hash", not those already prepended
+    beforeMain = beforeMain.replace(/href="#(?!home|about|learning|interests|education|projects|connect)/g, 'href="index.html#'); // Special case for unknown hashes
+    // Force the main menu items to go back to index.html
+    beforeMain = beforeMain.replace(/href="#home"/g, 'href="index.html#home"');
+    beforeMain = beforeMain.replace(/href="#about"/g, 'href="index.html#about"');
+    beforeMain = beforeMain.replace(/href="#learning"/g, 'href="index.html#learning"');
+    beforeMain = beforeMain.replace(/href="#interests"/g, 'href="index.html#interests"');
+    beforeMain = beforeMain.replace(/href="#education"/g, 'href="index.html#education"');
+    beforeMain = beforeMain.replace(/href="#projects"/g, 'href="index.html#projects"');
+    beforeMain = beforeMain.replace(/href="#connect"/g, 'href="index.html#connect"');
+
+    afterMain = afterMain.replace(/href="#home"/g, 'href="index.html#home"');
+    afterMain = afterMain.replace(/href="#about"/g, 'href="index.html#about"');
+    afterMain = afterMain.replace(/href="#learning"/g, 'href="index.html#learning"');
+    afterMain = afterMain.replace(/href="#interests"/g, 'href="index.html#interests"');
+    afterMain = afterMain.replace(/href="#education"/g, 'href="index.html#education"');
+    afterMain = afterMain.replace(/href="#projects"/g, 'href="index.html#projects"');
+    afterMain = afterMain.replace(/href="#connect"/g, 'href="index.html#connect"');
 
     const finalHtml = beforeMain + mainHTML + afterMain;
 

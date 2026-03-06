@@ -2882,7 +2882,21 @@
             .stacked-cards { height: 300px; width: 95%; }
             .stack-card { width: 85%; }
         }
-\n    </style>
+
+        /* Force Visibility on Project Pages */
+        .animate-on-scroll {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+        
+        /* Ensure main is visible and not hidden by any overlap */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -2912,13 +2926,13 @@
             <div class="nav-decoration">MENU</div>
         </div>
         <div class="nav-links">
-            <a href="#home" onclick="toggleMenu()" style="transition-delay: 0.1s;">HOME</a>
-            <a href="#about" onclick="toggleMenu()" style="transition-delay: 0.15s;">ABOUT</a>
-            <a href="#learning" onclick="toggleMenu()" style="transition-delay: 0.2s;">LEARNING</a>
-            <a href="#interests" onclick="toggleMenu()" style="transition-delay: 0.25s;">INTERESTS</a>
-            <a href="#education" onclick="toggleMenu()" style="transition-delay: 0.3s;">EDUCATION</a>
-            <a href="#projects" onclick="toggleMenu()" style="transition-delay: 0.35s;">PROJECTS</a>
-            <a href="#connect" onclick="toggleMenu()" style="transition-delay: 0.4s;">CONNECT</a>
+            <a href="index.html#home" onclick="toggleMenu()" style="transition-delay: 0.1s;">HOME</a>
+            <a href="index.html#about" onclick="toggleMenu()" style="transition-delay: 0.15s;">ABOUT</a>
+            <a href="index.html#learning" onclick="toggleMenu()" style="transition-delay: 0.2s;">LEARNING</a>
+            <a href="index.html#interests" onclick="toggleMenu()" style="transition-delay: 0.25s;">INTERESTS</a>
+            <a href="index.html#education" onclick="toggleMenu()" style="transition-delay: 0.3s;">EDUCATION</a>
+            <a href="index.html#projects" onclick="toggleMenu()" style="transition-delay: 0.35s;">PROJECTS</a>
+            <a href="index.html#connect" onclick="toggleMenu()" style="transition-delay: 0.4s;">CONNECT</a>
         </div>
         <div class="nav-footer">
             <div class="nav-info-grid">
@@ -2982,13 +2996,13 @@
             </div>
             <div class="footer-links">
                 <h5>Navigation</h5>
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#learning">Learning</a>
-                <a href="#interests">Interests</a>
-                <a href="#education">Education</a>
-                <a href="#projects">Projects</a>
-                <a href="#connect">Connect</a>
+                <a href="index.html#home">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#learning">Learning</a>
+                <a href="index.html#interests">Interests</a>
+                <a href="index.html#education">Education</a>
+                <a href="index.html#projects">Projects</a>
+                <a href="index.html#connect">Connect</a>
             </div>
             <div class="footer-legal">
                 <h5>Legal</h5>
@@ -3441,7 +3455,8 @@
                 card.style.transform = 'translateY(-20px) translateZ(50px) rotate(0deg) scale(1.05)';
             });
         });
-\n    </script>
+
+    </script>
 </body>
 
 </html>
