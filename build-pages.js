@@ -29,17 +29,19 @@ const cssToAdd = `
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             border: 2px solid rgba(255, 255, 255, 0.1);
             position: relative;
-            margin-right: -60px; /* Overlap */
+            margin-left: -60px; /* Overlap from left to keep centering */
             background: #111;
         }
+
+        .gallery-card:first-child { margin-left: 0; }
 
         .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
 
         .gallery-card:hover {
             transform: translateY(-20px) scale(1.1);
             z-index: 20 !important;
-            margin-right: -20px;
-            margin-left: 40px;
+            margin-left: 0px; 
+            margin-right: 40px;
             box-shadow: 0 20px 40px rgba(157, 78, 221, 0.4);
             border-color: var(--accent-purple);
         }
@@ -52,7 +54,7 @@ const cssToAdd = `
             gap: 1.5rem;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem 2rem 4rem 2rem;
         }
 
         .bento-item {
@@ -135,9 +137,29 @@ const cssToAdd = `
 
 const jsToAdd = `
         // Simple Gallery Hover Shift Logic
-        const cards = document.querySelectorAll('.gallery-card');
-        cards.forEach((card, i) => {
+        const galleryCards = document.querySelectorAll('.gallery-card');
+        galleryCards.forEach((card, i) => {
             card.style.zIndex = i;
+        });
+
+        // Restore Navigation and Animations
+        window.addEventListener('load', () => {
+            // Re-init Aurora
+            if (typeof reinitAurora === 'function') {
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                reinitAurora(savedTheme);
+            }
+            // Re-init Antigravity
+            if (typeof initGlobalGravity === 'function') {
+                initGlobalGravity();
+            }
+            // Fix hamburger menu functionality
+            const hamburger = document.querySelector('.hamburger');
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                   if (typeof toggleMenu === 'function') toggleMenu();
+                });
+            }
         });
 `;
 

@@ -2072,8 +2072,8 @@
         }
 
         .showcase-card {
-            flex: 0 0 260px;
-            height: 380px;
+            flex: 0 0 300px;
+            height: 420px;
             border-radius: 24px;
             position: relative;
             overflow: hidden;
@@ -2136,10 +2136,18 @@
             font-weight: 800;
             letter-spacing: 1px;
             opacity: 0.95;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #fff;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            opacity: 0.85;
             color: #fff;
         }
 
@@ -3320,10 +3328,11 @@
             <div class="showcase-carousel-wrapper">
                 <div class="showcase-carousel" id="projectCarousel">
                     <!-- 1. Grembit Axiom 10 -->
-                    <div class="showcase-card card-grembit-axiom active" onclick="goToCarouselSlide(0)">
+                    <div class="showcase-card card-grembit-axiom" onclick="goToCarouselSlide(0)">
                         <div class="card-content">
                             <span class="card-status">DEVELOPING</span>
                             <h3 class="card-title">Grembit<br>Axiom 10</h3>
+                            <p class="card-desc">Algorithmic engine for Binance futures.</p>
                             <a href="project-grembit.html" class="card-action">
                                 Details
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3335,10 +3344,11 @@
                     </div>
 
                     <!-- 2. Grembit VADA -->
-                    <div class="showcase-card card-grembit-vada" onclick="goToCarouselSlide(1)">
+                    <div class="showcase-card card-grembit-vada active" onclick="goToCarouselSlide(1)">
                         <div class="card-content">
                             <span class="card-status">COMPLETED</span>
                             <h3 class="card-title">Grembit<br>VADA</h3>
+                            <p class="card-desc">Automated trading journal for performance.</p>
                             <a href="project-grembit-vada.html" class="card-action">
                                 Details
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3354,6 +3364,7 @@
                         <div class="card-content">
                             <span class="card-status">LIVE</span>
                             <h3 class="card-title">Portfolio<br>Website</h3>
+                            <p class="card-desc">Personal showcase with premium visual.</p>
                             <a href="project-portfolio.html" class="card-action">
                                 Details
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3841,7 +3852,7 @@
         });
 
         // Carousel Logic Redesign (Centered NFT Strip)
-        let currentCarouselIndex = 0;
+        let currentCarouselIndex = 1;
         const carousel = document.querySelector('.showcase-carousel');
         const cards = document.querySelectorAll('.showcase-card');
         const dots = document.querySelectorAll('.carousel-dot');
