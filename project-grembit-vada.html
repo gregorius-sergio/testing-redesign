@@ -3121,11 +3121,11 @@
         [data-theme="light"] .gallery-title { color: #000; }
         
         /* Force Dark Footer Persistence - Extreme Specificity */
-        [data-theme="light"] body footer, 
-        [data-theme="light"] body .footer-section, 
-        [data-theme="light"] body .footer-bottom,
-        [data-theme="light"] body footer *, 
-        [data-theme="light"] body .footer-section * {
+        html[data-theme="light"] body footer, 
+        html[data-theme="light"] body .footer-section, 
+        html[data-theme="light"] body .footer-bottom,
+        html[data-theme="light"] body footer *, 
+        html[data-theme="light"] body .footer-section * {
             background-color: #05000a !important;
             color: #fff !important;
             border-color: rgba(255,255,255,0.1) !important;
@@ -3140,7 +3140,7 @@
 <body>
 
     <canvas id="particle-canvas"></canvas>
-    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
+    <div class="menu-backdrop" id="menuBackdrop" ></div>
 
     <header>
         <div class="logo">
@@ -3152,7 +3152,7 @@
             <div class="switch-container">
                 <div class="toggle-switch" onclick="toggleTheme()" id="themeToggleBtn"></div>
             </div>
-            <div class="hamburger">
+            <div class="hamburger" >
                 <span></span><span></span><span></span>
             </div>
         </div>
@@ -3164,13 +3164,13 @@
             <div class="nav-decoration">MENU</div>
         </div>
         <div class="nav-links">
-            <a href="index.html#home" onclick="toggleMenu()" style="transition-delay: 0.1s;">HOME</a>
-            <a href="index.html#about" onclick="toggleMenu()" style="transition-delay: 0.15s;">ABOUT</a>
-            <a href="index.html#learning" onclick="toggleMenu()" style="transition-delay: 0.2s;">LEARNING</a>
-            <a href="index.html#interests" onclick="toggleMenu()" style="transition-delay: 0.25s;">INTERESTS</a>
-            <a href="index.html#education" onclick="toggleMenu()" style="transition-delay: 0.3s;">EDUCATION</a>
-            <a href="index.html#projects" onclick="toggleMenu()" style="transition-delay: 0.35s;">PROJECTS</a>
-            <a href="index.html#connect" onclick="toggleMenu()" style="transition-delay: 0.4s;">CONNECT</a>
+            <a href="index.html#home"  style="transition-delay: 0.1s;">HOME</a>
+            <a href="index.html#about"  style="transition-delay: 0.15s;">ABOUT</a>
+            <a href="index.html#learning"  style="transition-delay: 0.2s;">LEARNING</a>
+            <a href="index.html#interests"  style="transition-delay: 0.25s;">INTERESTS</a>
+            <a href="index.html#education"  style="transition-delay: 0.3s;">EDUCATION</a>
+            <a href="index.html#projects"  style="transition-delay: 0.35s;">PROJECTS</a>
+            <a href="index.html#connect"  style="transition-delay: 0.4s;">CONNECT</a>
         </div>
         <div class="nav-footer">
             <div class="nav-info-grid">
@@ -3697,27 +3697,39 @@
             // Fix hamburger menu functionality - Extreme Force
             const hamburger = document.querySelector('.hamburger');
             const navOverlay = document.querySelector('.nav-overlay');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
             
+            function doToggle() {
+                console.log("Forced Toggle");
+                if (hamburger) hamburger.classList.toggle('active');
+                if (navOverlay) navOverlay.classList.toggle('active');
+                if (menuBackdrop) menuBackdrop.classList.toggle('active');
+            }
+
             if (hamburger && navOverlay) {
-                hamburger.addEventListener('click', (e) => {
+                // Completely replace to kill any remaining inline or attached listeners
+                const newHamburger = hamburger.cloneNode(true);
+                hamburger.parentNode.replaceChild(newHamburger, hamburger);
+                
+                newHamburger.addEventListener('click', (e) => {
                    e.preventDefault();
                    e.stopPropagation();
-                   console.log("Hamburger clicked");
-                   hamburger.classList.toggle('active');
-                   navOverlay.classList.toggle('active');
-                   
-                   // Sync with global toggle if available
-                   if (typeof toggleMenu === 'function') {
-                       // toggleMenu(); // Avoid double toggle if logic is same
-                   }
+                   doToggle();
                 });
                 
+                if (menuBackdrop) {
+                    const newBackdrop = menuBackdrop.cloneNode(true);
+                    menuBackdrop.parentNode.replaceChild(newBackdrop, menuBackdrop);
+                    newBackdrop.addEventListener('click', doToggle);
+                }
+
                 // Close menu when clicking links
                 const navLinks = navOverlay.querySelectorAll('a');
                 navLinks.forEach(link => {
                     link.addEventListener('click', () => {
-                        hamburger.classList.remove('active');
-                        navOverlay.classList.remove('active');
+                        if (hamburger) hamburger.classList.remove('active');
+                        if (navOverlay) navOverlay.classList.remove('active');
+                        if (menuBackdrop) menuBackdrop.classList.remove('active');
                     });
                 });
             }

@@ -154,11 +154,11 @@ const cssToAdd = `
         [data-theme="light"] .gallery-title { color: #000; }
         
         /* Force Dark Footer Persistence - Extreme Specificity */
-        [data-theme="light"] body footer, 
-        [data-theme="light"] body .footer-section, 
-        [data-theme="light"] body .footer-bottom,
-        [data-theme="light"] body footer *, 
-        [data-theme="light"] body .footer-section * {
+        html[data-theme="light"] body footer, 
+        html[data-theme="light"] body .footer-section, 
+        html[data-theme="light"] body .footer-bottom,
+        html[data-theme="light"] body footer *, 
+        html[data-theme="light"] body .footer-section * {
             background-color: #05000a !important;
             color: #fff !important;
             border-color: rgba(255,255,255,0.1) !important;
@@ -189,27 +189,39 @@ const jsToAdd = `
             // Fix hamburger menu functionality - Extreme Force
             const hamburger = document.querySelector('.hamburger');
             const navOverlay = document.querySelector('.nav-overlay');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
             
+            function doToggle() {
+                console.log("Forced Toggle");
+                if (hamburger) hamburger.classList.toggle('active');
+                if (navOverlay) navOverlay.classList.toggle('active');
+                if (menuBackdrop) menuBackdrop.classList.toggle('active');
+            }
+
             if (hamburger && navOverlay) {
-                hamburger.addEventListener('click', (e) => {
+                // Completely replace to kill any remaining inline or attached listeners
+                const newHamburger = hamburger.cloneNode(true);
+                hamburger.parentNode.replaceChild(newHamburger, hamburger);
+                
+                newHamburger.addEventListener('click', (e) => {
                    e.preventDefault();
                    e.stopPropagation();
-                   console.log("Hamburger clicked");
-                   hamburger.classList.toggle('active');
-                   navOverlay.classList.toggle('active');
-                   
-                   // Sync with global toggle if available
-                   if (typeof toggleMenu === 'function') {
-                       // toggleMenu(); // Avoid double toggle if logic is same
-                   }
+                   doToggle();
                 });
                 
+                if (menuBackdrop) {
+                    const newBackdrop = menuBackdrop.cloneNode(true);
+                    menuBackdrop.parentNode.replaceChild(newBackdrop, menuBackdrop);
+                    newBackdrop.addEventListener('click', doToggle);
+                }
+
                 // Close menu when clicking links
                 const navLinks = navOverlay.querySelectorAll('a');
                 navLinks.forEach(link => {
                     link.addEventListener('click', () => {
-                        hamburger.classList.remove('active');
-                        navOverlay.classList.remove('active');
+                        if (hamburger) hamburger.classList.remove('active');
+                        if (navOverlay) navOverlay.classList.remove('active');
+                        if (menuBackdrop) menuBackdrop.classList.remove('active');
                     });
                 });
             }
@@ -253,8 +265,8 @@ function buildPage(filename, mainHTML) {
     afterMain = afterMain.replace(/href="#projects"/g, 'href="index.html#projects"');
     afterMain = afterMain.replace(/href="#connect"/g, 'href="index.html#connect"');
 
-    // Strip inline onclick from hamburger to prevent double-toggle regressions
-    beforeMain = beforeMain.replace(/<div class="hamburger" onclick="toggleMenu\(\)">/g, '<div class="hamburger">');
+    // Strip all inline onclick="toggleMenu()" to prevent double-toggle regressions
+    beforeMain = beforeMain.replace(/onclick="toggleMenu\(\)"/g, '');
 
     const finalHtml = beforeMain + mainHTML + afterMain;
 
