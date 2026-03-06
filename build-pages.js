@@ -153,13 +153,21 @@ const cssToAdd = `
         }
         [data-theme="light"] .gallery-title { color: #000; }
         
-        /* Force Dark Footer */
-        footer, .footer-section {
-            background: #0a0a0a !important;
+        /* Force Dark Footer Persistence */
+        footer, 
+        .footer-section, 
+        .footer-bottom, 
+        footer *, 
+        .footer-section * {
+            background-color: #05000a !important;
             color: #fff !important;
+            border-color: rgba(255,255,255,0.1) !important;
         }
-        footer h3, footer p, footer a { color: #fff !important; }
-        footer .footer-bottom { border-top-color: rgba(255,255,255,0.1) !important; }
+        [data-theme="light"] footer, 
+        [data-theme="light"] .footer-section, 
+        [data-theme="light"] .footer-bottom {
+             background-color: #05000a !important;
+        }
 `;
 
 const jsToAdd = `
@@ -180,24 +188,31 @@ const jsToAdd = `
             if (typeof initGlobalGravity === 'function') {
                 initGlobalGravity();
             }
-            // Fix hamburger menu functionality - Force attachment
+            // Fix hamburger menu functionality - Extreme Force
             const hamburger = document.querySelector('.hamburger');
             const navOverlay = document.querySelector('.nav-overlay');
             
-            if (hamburger) {
-                // Remove existing to avoid clones/duplicates if any
-                const newHamburger = hamburger.cloneNode(true);
-                hamburger.parentNode.replaceChild(newHamburger, hamburger);
-                
-                newHamburger.addEventListener('click', (e) => {
+            if (hamburger && navOverlay) {
+                hamburger.addEventListener('click', (e) => {
                    e.preventDefault();
+                   e.stopPropagation();
+                   console.log("Hamburger clicked");
+                   hamburger.classList.toggle('active');
+                   navOverlay.classList.toggle('active');
+                   
+                   // Sync with global toggle if available
                    if (typeof toggleMenu === 'function') {
-                       toggleMenu();
-                   } else {
-                       // Fallback if toggleMenu is lost
-                       newHamburger.classList.toggle('active');
-                       if(navOverlay) navOverlay.classList.toggle('active');
+                       // toggleMenu(); // Avoid double toggle if logic is same
                    }
+                });
+                
+                // Close menu when clicking links
+                const navLinks = navOverlay.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navOverlay.classList.remove('active');
+                    });
                 });
             }
         });
