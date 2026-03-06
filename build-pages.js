@@ -78,7 +78,7 @@ const jsToAdd = `
 `;
 
 function buildPage(filename, mainHTML) {
-    const indexPath = path.join(__dirname, 'indexportfolio.html');
+    const indexPath = path.join(__dirname, 'index.html');
     let content = fs.readFileSync(indexPath, 'utf8');
 
     // split content
