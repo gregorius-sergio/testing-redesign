@@ -118,6 +118,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
+            zoom: 0.9;
         }
 
         /* Elements using Fira Code */
@@ -2067,8 +2068,19 @@
             gap: 2rem;
             align-items: center;
             padding: 2rem;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform;
+        }
+
+        .projects-section-title {
+            text-align: center !important;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .projects-section-title h2 {
+            text-align: center !important;
         }
 
         .showcase-card {
@@ -2083,8 +2095,10 @@
             filter: blur(1px) grayscale(20%);
             transform: scale(0.85);
             border: none;
+            border-radius: 30px !important;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             text-align: left;
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .showcase-card.active {
@@ -2167,7 +2181,17 @@
         }
 
         /* Light Mode Contrast Fixes for Showcase */
-        [data-theme="light"] .card-status,
+        [data-theme="light"] .card-status {
+            color: #D4AF37 !important;
+            background: rgba(0, 0, 0, 0) !important;
+            background-color: transparent !important;
+            padding: 0 !important;
+            font-weight: 900 !important;
+            text-transform: uppercase !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
         [data-theme="light"] .card-title,
         [data-theme="light"] .card-desc,
         [data-theme="light"] .tech-tag {
@@ -3098,11 +3122,16 @@
             .gallery-card { width: 200px; height: 130px; margin-right: -40px; }
         }
 
-        /* Force Visibility on Project Pages */
+        /* Entrance Animations (React Bits Style) */
         .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .animate-on-scroll.is-visible {
             opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
+            transform: translateY(0) !important;
         }
         
         /* Ensure main is visible and not hidden by any overlap */
@@ -3113,10 +3142,14 @@
 
         /* LIGHT MODE REVISIONS */
         [data-theme="light"] .card-status {
-            color: #000 !important;
-            background: rgba(0, 0, 0, 0.05);
-            padding: 4px 12px;
-            border-radius: 20px;
+            color: #D4AF37 !important;
+            background: rgba(0,0,0,0) !important;
+            background-color: transparent !important;
+            padding: 0 !important;
+            font-weight: 900 !important;
+            text-transform: uppercase !important;
+            box-shadow: none !important;
+            border: none !important;
         }
         [data-theme="light"] .gallery-title { color: #000; }
         
@@ -3208,7 +3241,7 @@
         </section>
 
         <section id="details" style="padding-bottom: 5rem;">
-            <div class="bento-grid" style="padding-top: 0; margin-top: -1rem;">
+            <div class="bento-grid" style="padding-top: 0; margin-top: -3rem !important;">
                 <div class="bento-item bento-main">
                     <div class="bento-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div>
                     <h3 class="bento-title">Automated Journal</h3>
@@ -3632,12 +3665,11 @@
                 }
             });
 
-            // Calculate offset to center the active card
-            const activeCard = cards[currentCarouselIndex];
+            // Calculate offset to center the active card perfectly
             const wrapperWidth = wrapper.offsetWidth;
-            const centerPosition = wrapperWidth / 2;
-            const cardCenter = activeCard.offsetLeft + (activeCard.offsetWidth / 2);
-            const offset = centerPosition - cardCenter;
+            const activeCardWidth = activeCard.offsetWidth;
+            const activeCardLeft = activeCard.offsetLeft;
+            const offset = (wrapperWidth / 2) - (activeCardLeft + activeCardWidth / 2);
 
             carousel.style.transform = `translateX(${offset}px)`;
         }
@@ -3694,6 +3726,14 @@
             if (typeof initGlobalGravity === 'function') {
                 initGlobalGravity();
             }
+            // Sequential Reveal for Animations
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('is-visible');
+                }, 200 + (index * 150));
+            });
+
             // Fix hamburger menu functionality - Extreme Force
             const hamburger = document.querySelector('.hamburger');
             const navOverlay = document.querySelector('.nav-overlay');
